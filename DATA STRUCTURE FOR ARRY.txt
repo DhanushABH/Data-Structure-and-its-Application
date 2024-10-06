@@ -2,6 +2,7 @@ BASIC DATA STRUCTURE FOR ARRAY :
 --------------------------------
 
 Custom Array Class Implementation in Python
+-------------------------------------------
 
 class Array:
     def __init__(self, capacity):
@@ -25,17 +26,19 @@ This implementation represents a static array. The capacity of the array is fixe
 In contrast, a dynamic array would allow for resizing as needed, typically through methods that manage the addition and removal of elements while adjusting the underlying storage.
 
 1. Class Definition:
+--------------------
 
 class Array: This defines a new class called Array. A class in Python is a blueprint for creating objects (instances), which can have attributes (data) and methods (functions).
 
 2. Constructor Method: def __init__(self, capacity):
+----------------------------------------------------
 
 __init__ is a special method in Python called the constructor. It is automatically called when a new object (instance) of the class is created.
 self: This is a reference to the current instance of the class. It allows you to bind attributes to the specific instance.
 capacity: This is an argument that defines the maximum size (capacity) of the array. When creating an Array instance, you will provide this value (like Array(5)).
 
 3. Setting Attributes: self.capacity = capacity
- 
+ ------------------------------------------------
  self.capacity: This creates an attribute named capacity for the instance, which stores the value passed when creating the object.
 The capacity parameter is passed in the constructor, and self.capacity binds it to the instance.
 
@@ -49,7 +52,7 @@ self.data: This creates an attribute data that will hold the array elements.
 Essentially, this allocates memory for the array but doesn't store any actual values yet (since None just acts as a placeholder).
 
 4. String Representation Method: def __str__(self):
-
+---------------------------------------------------
 This is a special method called __str__, which is used to define how the object should be represented as a string when printed.
 When you call print(arr), Python looks for this __str__ method and uses it to convert the object into a human-readable string.
 
@@ -69,11 +72,12 @@ self.size will be initialized to 0.
 self.data will be initialized as [None, None, None, None, None], reserving space for 5 elements.
 
  6. Printing the Array Object: print(arr)
-
+-------------------------------------------
 This will call the __str__ method to get the string representation of the array.
 Since no elements have been added yet (self.size = 0), the array is still empty. The __str__ method will return "[]", representing an empty array.
 
 Full Explanation of Code Workflow :
+-----------------------------------
 Define Class    :   The Array class is defined with an initialization method (__init__) and a string representation method (__str__).
 Create Object   :   When arr = Array(5) is called, an instance of Array is created with a capacity of 5.
 Allocate Memory :   In the constructor, memory is allocated for 5 elements (self.data = [None, None, None, None, None]), and the current size is set to 0 (self.size = 0).
@@ -152,11 +156,13 @@ print(arr)  # Output should be [10, 15, 20]
 
 
 Explanation:
+------------
 The insert method takes an index and value, and shifts the elements to the right to make room for the new element.
 If the array is full (size >= capacity), we raise an OverflowError.
 
 
 Step 4: Deletion
+-----------------
 We'll now implement a method to delete elements from the array.
 
 class Array:
@@ -209,6 +215,7 @@ print(arr)  # Output should be [10, 20, 40]
 
 
 Explanation:
+------------
 The delete method removes the element at the specified index and shifts the remaining elements to the left.
 
 
