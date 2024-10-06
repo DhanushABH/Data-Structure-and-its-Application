@@ -1,0 +1,255 @@
+BASIC DATA STRUCTURE FOR ARRAY :
+--------------------------------
+
+Custom Array Class Implementation in Python
+
+class Array:
+    def __init__(self, capacity):
+        self.capacity = capacity  # Maximum size of the array
+        self.size = 0  # Current number of elements in the array
+        self.data = [None] * capacity  # Allocate memory for the array elements
+    
+    def __str__(self):
+        # String representation to show current elements in the array
+        return str([self.data[i] for i in range(self.size)])
+
+# Create an array of size 5
+arr = Array(5)
+print(arr)
+
+EXPLANATION :
+-------------
+
+This implementation represents a static array. The capacity of the array is fixed at the time of creation (in this case, 5), and you can't change its size dynamically after it has been created. If you need to add more elements than the defined capacity, you would have to create a new array with a larger capacity and copy the existing elements over.
+
+In contrast, a dynamic array would allow for resizing as needed, typically through methods that manage the addition and removal of elements while adjusting the underlying storage.
+
+1. Class Definition:
+
+class Array: This defines a new class called Array. A class in Python is a blueprint for creating objects (instances), which can have attributes (data) and methods (functions).
+
+2. Constructor Method: def __init__(self, capacity):
+
+__init__ is a special method in Python called the constructor. It is automatically called when a new object (instance) of the class is created.
+self: This is a reference to the current instance of the class. It allows you to bind attributes to the specific instance.
+capacity: This is an argument that defines the maximum size (capacity) of the array. When creating an Array instance, you will provide this value (like Array(5)).
+
+3. Setting Attributes: self.capacity = capacity
+ 
+ self.capacity: This creates an attribute named capacity for the instance, which stores the value passed when creating the object.
+The capacity parameter is passed in the constructor, and self.capacity binds it to the instance.
+
+self.size = 0
+self.size: This creates an attribute called size for the instance and initializes it to 0. This size will track the current number of elements in the array.
+Initially, the array is empty, so its size is set to 0.
+
+self.data = [None] * capacity
+self.data: This creates an attribute data that will hold the array elements.
+[None] * capacity: This creates a list of None values with the length equal to the capacity. For example, if capacity is 5, it will create a list [None, None, None, None, None], which represents the empty array where elements can later be added.
+Essentially, this allocates memory for the array but doesn't store any actual values yet (since None just acts as a placeholder).
+
+4. String Representation Method: def __str__(self):
+
+This is a special method called __str__, which is used to define how the object should be represented as a string when printed.
+When you call print(arr), Python looks for this __str__ method and uses it to convert the object into a human-readable string.
+
+return str([self.data[i] for i in range(self.size)])
+
+This returns a string representation of the array's current elements.
+[self.data[i] for i in range(self.size)]: This is a list comprehension that loops through the array from index 0 up to self.size - 1, collecting the current elements that have been added (ignoring the None placeholders).
+range(self.size): Generates a range from 0 to size-1, so it only includes the actual elements, not the None values.
+self.data[i]: Retrieves the element at position i in the array.
+str(...): Converts the list of actual elements into a string format so it can be printed. For example, if there are two elements 10 and 20 in the array, it would return "[10, 20]".
+
+arr = Array(5)
+
+This creates a new instance of the Array class with a capacity of 5. The constructor __init__ is automatically called with capacity=5.
+self.capacity will be set to 5.
+self.size will be initialized to 0.
+self.data will be initialized as [None, None, None, None, None], reserving space for 5 elements.
+
+ 6. Printing the Array Object: print(arr)
+
+This will call the __str__ method to get the string representation of the array.
+Since no elements have been added yet (self.size = 0), the array is still empty. The __str__ method will return "[]", representing an empty array.
+
+Full Explanation of Code Workflow :
+Define Class    :   The Array class is defined with an initialization method (__init__) and a string representation method (__str__).
+Create Object   :   When arr = Array(5) is called, an instance of Array is created with a capacity of 5.
+Allocate Memory :   In the constructor, memory is allocated for 5 elements (self.data = [None, None, None, None, None]), and the current size is set to 0 (self.size = 0).
+Print Object    :   When print(arr) is executed, Python calls the __str__ method, which returns the string representation of the current array (empty at this point), and prints [].
+
+
+
+
+# Step 2: Accessing Elements
+----------------------------
+class Array:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.size = 0
+        self.data = [None] * capacity
+    
+    def __str__(self):
+        return str([self.data[i] for i in range(self.size)])
+    
+    def access(self, index):
+        if index >= 0 and index < self.size:
+            return self.data[index]
+        else:
+            raise IndexError("Index out of bounds")
+
+# Create an array and test element access
+arr = Array(5)
+arr.data = [10, 20, 30, 40, 50]  # Manually adding data for testing
+arr.size = 5  # Update the size manually
+print(arr.access(2))  # Output should be 30
+
+Explanation:
+The access method takes an index and returns the element at that index if it's within bounds.
+
+
+Step 3: Insertion
+-----------------
+Now, let's create a method to insert elements. We'll handle insertions at the end of the array, beginning, or any specific position.
+
+
+class Array:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.size = 0
+        self.data = [None] * capacity
+    
+    def __str__(self):
+        return str([self.data[i] for i in range(self.size)])
+    
+    def access(self, index):
+        if index >= 0 and index < self.size:
+            return self.data[index]
+        else:
+            raise IndexError("Index out of bounds")
+    
+    def insert(self, index, value):
+        if self.size >= self.capacity:
+            raise OverflowError("Array is full")
+        if index < 0 or index > self.size:
+            raise IndexError("Invalid index")
+        
+        # Shift elements to the right
+        for i in range(self.size, index, -1):
+            self.data[i] = self.data[i - 1]
+        
+        # Insert the new value
+        self.data[index] = value
+        self.size += 1
+
+# Create an array and test insertion
+arr = Array(5)
+arr.insert(0, 10)  # Insert 10 at index 0
+arr.insert(1, 20)  # Insert 20 at index 1
+arr.insert(1, 15)  # Insert 15 at index 1 (shifting 20 to the right)
+print(arr)  # Output should be [10, 15, 20]
+
+
+Explanation:
+The insert method takes an index and value, and shifts the elements to the right to make room for the new element.
+If the array is full (size >= capacity), we raise an OverflowError.
+
+
+Step 4: Deletion
+We'll now implement a method to delete elements from the array.
+
+class Array:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.size = 0
+        self.data = [None] * capacity
+    
+    def __str__(self):
+        return str([self.data[i] for i in range(self.size)])
+    
+    def access(self, index):
+        if index >= 0 and index < self.size:
+            return self.data[index]
+        else:
+            raise IndexError("Index out of bounds")
+    
+    def insert(self, index, value):
+        if self.size >= self.capacity:
+            raise OverflowError("Array is full")
+        if index < 0 or index > self.size:
+            raise IndexError("Invalid index")
+        
+        for i in range(self.size, index, -1):
+            self.data[i] = self.data[i - 1]
+        self.data[index] = value
+        self.size += 1
+    
+    def delete(self, index):
+        if index < 0 or index >= self.size:
+            raise IndexError("Invalid index")
+        
+        # Shift elements to the left
+        for i in range(index, self.size - 1):
+            self.data[i] = self.data[i + 1]
+        
+        # Nullify the last element
+        self.data[self.size - 1] = None
+        self.size -= 1
+
+# Create an array and test deletion
+arr = Array(5)
+arr.insert(0, 10)
+arr.insert(1, 20)
+arr.insert(2, 30)
+arr.insert(3, 40)
+print(arr)  # Output should be [10, 20, 30, 40]
+arr.delete(2)  # Delete the element at index 2
+print(arr)  # Output should be [10, 20, 40]
+
+
+Explanation:
+The delete method removes the element at the specified index and shifts the remaining elements to the left.
+
+
+Step 5: Traversal
+-------------------
+Traversing simply means going through the elements of the array one by one.
+
+def traverse(self):
+    for i in range(self.size):
+        print(self.data[i])
+
+# Test traversal
+arr.traverse()  # Output: 10 20 40
+
+
+Step 6: Searching
+--------------------
+We’ll implement both linear search and binary search for sorted arrays.
+
+def linear_search(self, value):
+    for i in range(self.size):
+        if self.data[i] == value:
+            return i
+    return -1
+
+
+
+Binary Search (for sorted arrays):
+----------------------------------
+
+def binary_search(self, value):
+    low = 0
+    high = self.size - 1
+    
+    while low <= high:
+        mid = (low + high) // 2
+        if self.data[mid] == value:
+            return mid
+        elif self.data[mid] < value:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
