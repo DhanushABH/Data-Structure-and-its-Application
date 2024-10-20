@@ -432,6 +432,388 @@ Here’s the full code, including insertion and deletion methods:
 
 class Node:
     def __init__(self, data):
+        self.data = data  # Store the node's data
+        self.next = None  # Pointer to the next node
+
+class LinkedList:
+    def __init__(self):
+        self.head = None  # Head of the linked list
+
+    def __str__(self):
+        # Convert the linked list into a string representation
+        elements = []
+        current = self.head
+        while current:
+            elements.append(current.data)
+            current = current.next
+        return " -> ".join(map(str, elements))
+
+    # Deletion Operations
+
+    # 1. Delete the first node
+    def delete_first(self):
+        if not self.head:  # If the list is empty
+            raise Exception("List is empty")
+        self.head = self.head.next  # Move the head to the next node
+
+    # 2. Delete the last node
+    def delete_last(self):
+        if not self.head:  # If the list is empty
+            raise Exception("List is empty")
+        if not self.head.next:  # If the list contains only one node
+            self.head = None
+            return
+        current = self.head
+        while current.next.next:  # Traverse to the second-last node
+            current = current.next
+        current.next = None  # Remove the last node
+
+    # 3. Delete a node at a specific position
+    def delete_at_position(self, position):
+        if position < 0:
+            raise IndexError("Invalid position")
+        if not self.head:  # If the list is empty
+            raise Exception("List is empty")
+        if position == 0:  # If deleting the first node
+            self.head = self.head.next
+            return
+        current = self.head
+        for _ in range(position - 1):
+            if not current.next:  # If position is out of bounds
+                raise IndexError("Position out of bounds")
+            current = current.next
+        if not current.next:  # If the next node doesn't exist
+            raise IndexError("Position out of bounds")
+        current.next = current.next.next  # Skip over the node to delete
+
+# Testing the Deletion Operations
+ll = LinkedList()
+
+# Adding some nodes to delete
+ll.head = Node(10)
+ll.head.next = Node(20)
+ll.head.next.next = Node(30)
+ll.head.next.next.next = Node(40)
+
+print("Initial List:")
+print(ll)  # Output: 10 -> 20 -> 30 -> 40
+
+# 1. Delete the first node
+ll.delete_first()
+print("\nAfter deleting the first node:")
+print(ll)  # Output: 20 -> 30 -> 40
+
+# 2. Delete the last node
+ll.delete_last()
+print("\nAfter deleting the last node:")
+print(ll)  # Output: 20 -> 30
+
+# 3. Delete a node at a specific position (position 1)
+ll.delete_at_position(1)
+print("\nAfter deleting node at position 1:")
+print(ll)  # Output: 20
+
+
+
+Traversal :
+-----------
+Traversing a linked list means visiting each node one by one.
+
+def traverse(self):
+    current = self.head  # Start from the head of the linked list
+    while current:
+        print(current.data, end=" -> ")  # Print the current node's data followed by ' -> '
+        current = current.next  # Move to the next node
+    print("None")  # Print 'None' to indicate the end of the list
+
+
+Explanation:
+current = self.head:
+
+The current variable is initialized to the head node of the linked list.
+The head represents the first node in the list.
+while current::
+
+This loop will continue as long as current is not None.
+When current becomes None, it means we have reached the end of the list.
+print(current.data, end=" -> "):
+
+In each iteration of the loop, it prints the data of the current node followed by " -> ".
+The end=" -> " parameter ensures that the print statement doesn’t move to the next line after each data print. This creates a continuous chain-like display.
+current = current.next:
+
+After printing the data of the current node, the current pointer is moved to the next node.
+print("None"):
+
+When the loop ends (i.e., when current becomes None), it prints "None" to indicate the end of the list.
+
+
+ll.traverse()  
+# Output: 15 -> None
+
+
+Example:
+--------
+Let's assume the linked list contains the following nodes:
+
+
+10 -> 20 -> 30 -> None
+
+
+If we call traverse() on this list, the output will be:
+
+10 -> 20 -> 30 -> None
+
+
+
+First iteration:
+----------------
+
+current.data = 10 → prints 10 ->
+current moves to the next node (20).
+
+Second iteration:
+-----------------
+current.data = 20 → prints 20 ->
+current moves to the next node (30).
+
+Third iteration:
+----------------
+current.data = 30 → prints 30 ->
+current moves to the next node (None).
+
+Loop ends:
+----------
+It prints "None" to indicate the end of the list.
+
+Purpose:
+--------
+traverse() allows us to iterate through the linked list and print all the elements in a readable format.
+It helps verify the contents of the list after performing operations like insertion or deletion.
+
+
+
+
+Searching for an Element :
+------------------------
+We’ll implement a linear search to find an element in the linked list.
+
+CODE :
+
+def search(self, value):
+    current = self.head  # Start from the head node
+    position = 0  # Initialize position to 0 (index of the first node)
+    
+    while current:  # Loop through the linked list
+        if current.data == value:  # Check if the current node's data matches the target value
+            return position  # Return the position if the value is found
+        current = current.next  # Move to the next node
+        position += 1  # Increment the position
+
+    return -1  # Return -1 if the value is not found
+
+position = ll.search(15)
+print(f"Element 15 found at position: {position}")  
+
+# Output: Element 15 found at position: 0
+
+
+
+
+Explanation:
+-------------
+current = self.head:
+--------------------
+The current variable points to the head node of the linked list, which is the starting point for traversal.
+
+position = 0:
+-------------
+This variable keeps track of the position (index) of the current node as we traverse the list.
+
+while current::
+---------------
+The loop runs as long as current is not None.
+If current becomes None, it means we’ve reached the end of the list.
+
+if current.data == value::
+--------------------------
+At each node, we check if the data in the current node matches the target value we're searching for.
+
+return position:
+----------------
+If the value is found, we return the position (index) of the node where it was found.
+
+current = current.next:
+-----------------------
+If the value is not found at the current node, we move the current pointer to the next node.
+
+position += 1:
+--------------
+Increment the position to keep track of the index of the next node.
+
+return -1:
+----------
+If the loop completes and the value was not found in the list, we return -1.
+
+
+Example:
+--------
+Assume the linked list contains the following elements:
+
+10 -> 20 -> 30 -> 40 -> None
+
+Search for 30:
+--------------
+Iteration 1: current.data = 10, not equal to 30 → move to next node.
+Iteration 2: current.data = 20, not equal to 30 → move to next node.
+Iteration 3: current.data = 30, match found → return 2 (position/index).
+Output:
+2
+
+Search for 50:
+--------------
+Iteration 1 to 4: No match found for 50.
+After the loop completes, current becomes None, meaning the value doesn’t exist in the list.
+Output:
+-1
+
+
+Reversing the Linked List :
+---------------------------
+
+CODE :
+------
+
+def reverse(self):
+    prev = None  # Initialize the 'previous' pointer to None
+    current = self.head  # Start from the head node
+
+    while current:  # Traverse the linked list
+        next_node = current.next  # Store the next node temporarily
+        current.next = prev  # Reverse the 'next' pointer of the current node
+        prev = current  # Move the 'prev' pointer forward
+        current = next_node  # Move the 'current' pointer forward
+
+    self.head = prev  # Update the head to the new front (last node of original list)
+
+ll.reverse()
+print(ll)  # Output: 15 -> None (if only one element exists)
+
+
+
+Explanation:
+------------
+This method reverses the entire linked list by changing the next pointers of all nodes to point to the previous node instead of the next one.
+
+Step-by-Step Walkthrough:
+-------------------------
+Consider the following linked list:
+-----------------------------------
+
+10 -> 20 -> 30 -> 40 -> None
+
+
+Initialization:
+---------------
+prev = None
+current = self.head (points to the first node with value 10)
+
+
+First Iteration:
+----------------
+next_node = current.next → next_node points to 20
+current.next = prev → Set 10's next to None (reverse link)
+prev = current → Move prev to 10
+current = next_node → Move current to 20
+
+Now:
+----
+
+10 -> None
+prev: 10, current: 20
+
+
+Second Iteration:
+-----------------
+next_node = current.next → next_node points to 30
+current.next = prev → Set 20's next to 10
+prev = current → Move prev to 20
+current = next_node → Move current to 30
+
+Now:
+----
+
+20 -> 10 -> None
+prev: 20, current: 30
+
+
+Third Iteration:
+----------------
+next_node = current.next → next_node points to 40
+current.next = prev → Set 30's next to 20
+prev = current → Move prev to 30
+current = next_node → Move current to 40
+
+Now:
+----
+
+30 -> 20 -> 10 -> None
+prev: 30, current: 40
+
+
+Fourth Iteration:
+-----------------
+next_node = current.next → next_node is None (end of list)
+current.next = prev → Set 40's next to 30
+prev = current → Move prev to 40
+current = next_node → Move current to None (end of traversal)
+
+Now:
+----
+
+40 -> 30 -> 20 -> 10 -> None
+prev: 40, current: None
+
+
+Update the Head:
+----------------
+After the loop ends, prev points to the new head of the reversed list (node with value 40).
+self.head = prev → Update the head to 40.
+
+
+Final Reversed List:
+--------------------
+40 -> 30 -> 20 -> 10 -> None
+
+
+Key Concepts:
+-------------
+prev keeps track of the previous node to which the current node's next pointer should be reversed.
+current is used to traverse the list.
+next_node stores the next node temporarily to avoid losing the reference as the next pointers are reversed.
+After the traversal, the last node in the original list becomes the new head of the reversed list.
+
+
+
+Usage Example:
+--------------
+ll = LinkedList()
+ll.insert_at_end(10)
+ll.insert_at_end(20)
+ll.insert_at_end(30)
+ll.insert_at_end(40)
+
+print("Original List:", ll)  # Output: 10 -> 20 -> 30 -> 40
+ll.reverse()
+print("Reversed List:", ll)  # Output: 40 -> 30 -> 20 -> 10
+
+
+Complete Linked List Class :
+-----------------------------
+Here’s the complete code reference:
+
+class Node:
+    def __init__(self, data):
         self.data = data
         self.next = None
 
@@ -446,7 +828,88 @@ class LinkedList:
             elements.append(current.data)
             current = current.next
         return " -> ".join(map(str, elements))
-
+    
     def insert_at_beginning(self, data):
-        new
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+    
+    def insert_at_end(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+    
+    def insert_at_position(self, data, position):
+        if position < 0:
+            raise IndexError("Invalid position")
+        new_node = Node(data)
+        if position == 0:
+            new_node.next = self.head
+            self.head = new_node
+            return
+        current = self.head
+        for _ in range(position - 1):
+            if not current:
+                raise IndexError("Position out of bounds")
+            current = current.next
+        new_node.next = current.next
+        current.next = new_node
+    
+    def delete_first(self):
+        if not self.head:
+            raise Exception("List is empty")
+        self.head = self.head.next
+    
+    def delete_last(self):
+        if not self.head:
+            raise Exception("List is empty")
+        if not self.head.next:
+            self.head = None
+            return
+        current = self.head
+        while current.next.next:
+            current = current.next
+        current.next = None
+    
+    def delete_at_position(self, position):
+        if position < 0:
+            raise IndexError("Invalid position")
+        if not self.head:
+            raise Exception("List is empty")
+        if position == 0:
+            self.head = self.head.next
+            return
+        current = self.head
+        for _ in range(position - 1):
+            if not current.next:
+                raise IndexError("Position out of bounds")
+            current = current.next
+        current.next = current.next.next
+    
+    def traverse(self):
+        current = self.head
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+    
+    def search(self, value):
+        current = self.head
+        position = 0
+        while current:
+            if current.data == value:
+                return position
+            current = current.next
+            position += 1
+        return -1
+    
+    def reverse(self):
+        prev = None
+        current = self
+
 
